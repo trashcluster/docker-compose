@@ -1,4 +1,4 @@
-
+services:
   traefik:
     restart: always
     container_name: traefik
