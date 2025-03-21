@@ -5,8 +5,8 @@ services:
     image: traefik:v3.3
     read_only: true
     hostname: traefik.iab.lu
-    command:
-      - "--providers.http.endpoint=https://raw.githubusercontent.com/trashcluster/docker-compose/refs/heads/master/traefik-config.yaml"
+    #command:
+    #  - "--providers.http.endpoint=https://raw.githubusercontent.com/trashcluster/docker-compose/refs/heads/master/traefik-config.yaml"
     ports:
       - "80:80"
       - "443:443"
