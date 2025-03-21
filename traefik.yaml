@@ -1,0 +1,30 @@
+
+  traefik:
+    restart: always
+    container_name: traefik
+    image: traefik:v3.3
+    read_only: true
+    hostname: traefik.iab.lu
+    command:
+      - "--providers.http.endpoint=https://raw.githubusercontent.com/trashcluster/docker-compose/refs/heads/master/traefik-config.yaml"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      #- ./traefik.yaml:/traefik.yaml:ro
+      - /opt/conf/traefik/etc/traefik:/etc/traefik/
+      - /opt/conf/traefik/log/traefik/:/var/log/traefik/
+    labels:
+      - "traefik.http.routers.api.rule=Host(`traefik.iab.lu`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=mydnschallenge"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+
+networks:
+  traefik:
