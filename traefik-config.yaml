@@ -26,7 +26,7 @@ certificatesResolvers:
   mydnschallenge:
     acme:
       email: ACME@EMAIL.COM
-      storage: /etc/traefik/acme.json
+      storage: /acme/traefik/acme.json
       tlsChallenge: {}
       httpChallenge:
         entryPoint: web
