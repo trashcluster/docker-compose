@@ -1,0 +1,25 @@
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
+    restart: unless-stopped
+    #ports:
+      #- "8081:8081"
+    volumes:
+      - /data/hdd/media/youtube/metube:/downloads
+    environment:
+      - 'YTDL_OPTIONS={"download_archive":"/downloads/archive.txt","cookiefile":"/cookies/cookies.txt", "writesubtitles":true,"subtitleslangs":["en, fr, no, es, de","-live_chat"],"updatetime":false,"postprocessors":[{"key":"Exec","exec_cmd":"chmod 0664","when":"after_move"},{"key":"FFmpegEmbedSubtitle","already_have_subtitle":false},{"key":"FFmpegMetadata","add_chapters":true}]}'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.metube.rule=Host(`dl.iab.lu`)"
+      - "traefik.http.routers.metube.entrypoints=websecure"
+      - "traefik.http.routers.metube.tls.certresolver=mydnschallenge"
+      - "traefik.http.services.metube.loadbalancer.server.port=8081"
+      #- "traefik.http.routers.metube.middlewares=traefik-forward-auth"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
