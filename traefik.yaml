@@ -12,6 +12,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       #- ./traefik.yaml:/traefik.yaml:ro
+      - "/opt/conf/traefik/acme/:/etc/traefik/acme/"
       - ./traefik-config.yaml:/etc/traefik/traefik.yaml:ro
       - /opt/conf/traefik/log/traefik/:/var/log/traefik/
     labels:
