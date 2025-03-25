@@ -1,0 +1,43 @@
+services:
+  ejbca-database:
+    container_name: ejbca-database
+    image: "library/mariadb:latest"
+    networks:
+      - ejbca-internal
+    environment:
+      - MYSQL_ROOT_PASSWORD=foo123
+      - MYSQL_DATABASE=ejbca
+      - MYSQL_USER=ejbca
+      - MYSQL_PASSWORD=ejbca
+    volumes:
+      - ./datadbdir:/var/lib/mysql:rw
+  ejbca-node1:
+    hostname: ejbca-node1
+    container_name: ejbca
+    image: keyfactor/ejbca-ce:latest
+    depends_on:
+      - ejbca-database
+    networks:
+      - ejbca-internal
+      - traefik
+    environment:
+      - DATABASE_JDBC_URL=jdbc:mariadb://ejbca-database:3306/ejbca?characterEncoding=UTF-8
+      - LOG_LEVEL_APP=INFO
+      - LOG_LEVEL_SERVER=INFO
+      - TLS_SETUP_ENABLED=simple
+    #ports:
+    #  - "80:8080"
+    #  - "443:8443"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ejbca.rule=Host(`ejbca.iab.lu`)"
+      - "traefik.http.routers.ejbca.entrypoints=websecure"
+      - "traefik.http.routers.ejbca.tls.certresolver=mydnschallenge"
+      - "traefik.http.services.ejbca.loadbalancer.server.port=80"
+      #- "traefik.http.routers.ejbca.middlewares=traefik-forward-auth"
+      - "traefik.docker.network=traefik"
+
+networks:
+  ejbca-internal:
+  traefik:
+    external: true
