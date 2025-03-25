@@ -1,0 +1,39 @@
+services:
+  local-deep-researcher:
+    image: local-deep-researcher
+    container_name: local-deep-researcher
+    restart: unless-stopped
+    #ports:
+      #- "2024:2024"
+    environment:
+      - SEARCH_API="duckduckgo"
+      #- TAVILY_API_KEY="tvly-***YOUR_KEY_HERE***"
+      - LLM_PROVIDER=ollama
+      - OLLAMA_BASE_URL="http://ollama:11434/"
+      - LOCAL_LLM="llama3.2"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ldr.rule=Host(`ldr.iab.lu`)"
+      - "traefik.http.routers.ldr.entrypoints=websecure"
+      - "traefik.http.routers.ldr.tls.certresolver=mydnschallenge"
+      - "traefik.http.services.ldr.loadbalancer.server.port=2024"
+      #- "traefik.http.routers.ldr.middlewares=traefik-forward-auth"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+
+  ollama:
+    image: ollama/ollama
+    restart: unless-stopped
+    #ports:
+    #  - 11434:11434
+    volumes:
+        - /opt/conf/ollama/ollama:/root/.ollama
+        - ./entrypoint-ollama.sh:/entrypoint.sh
+    networks:
+      - traefik
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+
+networks:
+  traefik:
+    external: true
