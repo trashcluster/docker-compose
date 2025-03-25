@@ -47,6 +47,15 @@ services:
     ports:
       - 8080:8080/tcp
     restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.guacamole.rule=Host(`guacamole.iab.lu`)"
+      - "traefik.http.routers.guacamole.entrypoints=websecure"
+      - "traefik.http.routers.guacamole.tls.certresolver=mydnschallenge"
+      - "traefik.http.services.guacamole.loadbalancer.server.port=8080"
+      #- "traefik.http.routers.metube.middlewares=traefik-forward-auth"
+      - "traefik.docker.network=traefik"
+    
 networks:
   guacamole-internal:
   traefik:
