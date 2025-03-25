@@ -10,7 +10,7 @@ services:
       - MYSQL_USER=ejbca
       - MYSQL_PASSWORD=ejbca
     volumes:
-      - ./datadbdir:/var/lib/mysql:rw
+      - /opt/conf/ejbca/mysql/datadbdir:/var/lib/mysql:rw
   ejbca-node1:
     hostname: ejbca-node1
     container_name: ejbca
