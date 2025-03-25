@@ -6,7 +6,7 @@ services:
     read_only: true
     hostname: traefik.iab.lu
     command:
-      -"--providers.file.filename=/etc/traefik/traefik.yaml"
+      --providers.file.filename=/etc/traefik/traefik.yaml"
     ports:
       - "80:80"
       - "443:443"
