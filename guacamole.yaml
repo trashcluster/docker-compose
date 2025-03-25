@@ -21,8 +21,8 @@ services:
       - guacamole-internal
     restart: always
     volumes:
-    #- ./init:/docker-entrypoint-initdb.d:z
-    - /opt/conf/guacamole/postgres/data:/var/lib/postgresql/data:Z
+    - /opt/conf/guacamole/postgres/init:/docker-entrypoint-initdb.d
+    - /opt/conf/guacamole/postgres/data:/var/lib/postgresql/data
 
   guacamole:
     container_name: guacamole_compose
