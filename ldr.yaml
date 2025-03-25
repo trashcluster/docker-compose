@@ -10,7 +10,7 @@ services:
       #- TAVILY_API_KEY="tvly-***YOUR_KEY_HERE***"
       - LLM_PROVIDER=ollama
       - OLLAMA_BASE_URL="http://ollama:11434/"
-      - LOCAL_LLM="llama3.2"
+      - LOCAL_LLM="gemma3:4b"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ldr.rule=Host(`ldr.iab.lu`)"
@@ -19,6 +19,8 @@ services:
       - "traefik.http.services.ldr.loadbalancer.server.port=2024"
       #- "traefik.http.routers.ldr.middlewares=traefik-forward-auth"
       - "traefik.docker.network=traefik"
+    links: 
+      - ollama
     networks:
       - traefik
 
