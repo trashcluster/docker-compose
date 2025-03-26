@@ -31,8 +31,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ejbca.rule=Host(`ejbca.iab.lu`)"
-      - "traefik.http.routers.ejbca.entrypoints=websecure"
-      - "traefik.http.routers.ejbca.tls.certresolver=mydnschallenge"
+      - "traefik.http.routers.ejbca.entrypoints=web"
+      #- "traefik.http.routers.ejbca.tls.certresolver=mydnschallenge"
       - "traefik.http.services.ejbca.loadbalancer.server.port=8080"
       #- "traefik.http.routers.ejbca.middlewares=traefik-forward-auth"
       - "traefik.docker.network=traefik"
