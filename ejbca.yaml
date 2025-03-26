@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.ejbca.entrypoints=websecure"
       - "traefik.http.routers.ejbca.tls.certresolver=mydnschallenge"
       - "traefik.http.services.ejbca.loadbalancer.server.port=8080"
-      - "traefik.http.routers.ejbca.middlewares=traefik-forward-auth"
+      #- "traefik.http.routers.ejbca.middlewares=traefik-forward-auth"
       - "traefik.docker.network=traefik"
 
 networks:
