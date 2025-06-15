@@ -7,7 +7,7 @@ services:
       #- "8081:8081"
     volumes:
       - /opt/conf/metube/downloads:/downloads
-      - /opt/conf/metube/cookies/cookies.txt:/cookies/cookies.txt
+      #- /opt/conf/metube/cookies/cookies.txt:/cookies/cookies.txt
     environment:
       - 'YTDL_OPTIONS={"download_archive":"/downloads/archive.txt","cookiefile":"/cookies/cookies.txt", "writesubtitles":true,"subtitleslangs":["en, fr, no, es, de","-live_chat"],"updatetime":false,"postprocessors":[{"key":"Exec","exec_cmd":"chmod 0664","when":"after_move"},{"key":"FFmpegEmbedSubtitle","already_have_subtitle":false},{"key":"FFmpegMetadata","add_chapters":true}]}'
     labels:
